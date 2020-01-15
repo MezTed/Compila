@@ -1,12 +1,19 @@
 package compila ;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
-//a comprendre parfaitement
-public class Lexical {//Suggestion : changer le StringBuilder en Buffer Reader 
+
+/**
+ *
+ * @author Meziane Ted
+ */
+
+public class Lexical {
+    
     private StringBuilder input = new StringBuilder();
     private Token token;
     private String lexema;
