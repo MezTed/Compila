@@ -19,24 +19,25 @@ public class Lexical {
     private String lexema;
     private boolean exausthed = false;
     private String errorMessage = "";
-    private Set<Character> blankChars = new HashSet<Character>();
+    private Set<Character> WhiteSpaceCharacter = new HashSet<Character>();
 
     public Lexical(String filePath) {
         try (Stream<String> st = Files.lines(Paths.get(filePath))) {
-            st.forEach(input::append);
+            st.forEach(input::append); 
         } catch (IOException ex) {
             exausthed = true;
             errorMessage = "Could not read file: " + filePath;
             return;
         }
-
-        blankChars.add('\r');
-        blankChars.add('\n');
-        blankChars.add((char) 8);
-        blankChars.add((char) 9);
-        blankChars.add((char) 11);
-        blankChars.add((char) 12);
-        blankChars.add((char) 32);
+        /* tous les character qui doit etre supprimée */
+        
+        WhiteSpaceCharacter.add('\r');
+        WhiteSpaceCharacter.add('\n');
+        WhiteSpaceCharacter.add((char) 8);
+        WhiteSpaceCharacter.add((char) 9);
+        WhiteSpaceCharacter.add((char) 11);
+        WhiteSpaceCharacter.add((char) 12);
+        WhiteSpaceCharacter.add((char) 32);
 
         Next();
         
@@ -47,28 +48,28 @@ public class Lexical {
             return;
         }
 
-        if (input.length() == 0) {
+        if (input.length() == 0) { // cas d"space 
             exausthed = true;
             return;
         }
+ 
+        IgnorerLesEspaces(); // supprimer tous les character genant
 
-        IgnorerLesEsapces();
-
-        if (TrouverleProchainToken()) {
+        if (TrouverleProchainToken()) { //appeler la fonction Next Token
             return;
         }
-
-        exausthed = true;
+        
+        exausthed = true; // cas derreur
 
         if (input.length() > 0) {
             errorMessage = "Unexpected symbol: '" + input.charAt(0) + "'";
         }
     }
 
-    private void IgnorerLesEsapces() {
+    private void IgnorerLesEspaces() {
         int charsToDelete = 0;
 
-        while (blankChars.contains(input.charAt(charsToDelete))) {
+        while (WhiteSpaceCharacter.contains(input.charAt(charsToDelete))) {
             charsToDelete++;
         }
 
@@ -79,11 +80,11 @@ public class Lexical {
 
     private boolean TrouverleProchainToken() {
         for (Token t : Token.values()) {
-            int end = t.FinduMatcher(input.toString());
-
+            int end = t.FinduMatcher(input.toString());    //input stock tous le programme  
+            
             if (end != -1) {
                 token = t;
-                lexema = input.substring(0, end);
+                lexema = input.substring(0, end); // comprendre la fonction substring exactement
                 input.delete(0, end);
                 return true;
             }
