@@ -8,6 +8,11 @@ package compila;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ *
+ * @author Meziane Ted
+ */
+
 public enum Token {//a changer les commentaires et les messages
     Symbole_Inferieur ("<"),
     Symbole_Inferieur_ou_égale ("<="),
